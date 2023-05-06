@@ -28,7 +28,17 @@ public class ObjectMove {
         this.ghost=ghost;
         this.start=new Point(start.getMainRow(), start.getMainCol());
         this.target=new Point(target.getMainRow(),target.getMainCol());
-        graph = maze.getGraph();
+        graph = new SquareGraph(maze.numRows(), maze.numCols());
+        Point point;
+        for (int rows=0;rows< maze.numRows();rows++) {
+            for (int cols=0;cols<maze.numCols();cols++)
+            {
+                point = new Point(rows,cols);
+                maze.graph.getMapCell(point);
+                Node n = new Node(rows, cols,maze.graph.getMapCell(point).isObstacle()? "OBSTACLE" : "NORMAL");
+                graph.setMapCell(point,n);
+            }
+        }
         graph.setTargetPosition(this.target);
         graph.setStartPosition(this.start);
         nodes= graph.executeAStar();
@@ -44,18 +54,12 @@ public class ObjectMove {
 
                 for(int i=0;i< nodes.size();i++)
                 {
-                    System.out.println(nodes.get(i));
 
                     int row = nodes.get(i).getX();
                     int col = nodes.get(i).getY();
                     moveRow = row - ghostRow;
                     moveCol = col - ghostCol;
 
-                    System.out.println(nodes);
-                    System.out.println(row);
-                    System.out.println(ghostRow);
-                    System.out.println(col);
-                    System.out.println(ghostCol);
 
 
                     if(moveRow>0)

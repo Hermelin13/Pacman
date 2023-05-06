@@ -61,7 +61,7 @@ public class PathField extends AbstractObservable implements Field {
 
     public boolean put(MazeObject object) {
         if (!this.canMove()) {
-            throw new UnsupportedOperationException("Cannot put object on this type of field\n");
+            return false;
         }
         if (object.isPacman()) {
             if (this.get() instanceof BasicObject basic) {

@@ -3,8 +3,10 @@
  * Description: Implementation of app gui
  */
 
+import Replay.Move;
 import adapters.PlayerAdapterAZDW;
 import adapters.PlayerAdapterMouse;
+import common.MazeObject;
 import game.*;
 
 import common.Maze;
@@ -17,6 +19,8 @@ import javax.swing.*;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,13 +33,12 @@ public class MazePresenter {
     private JPanel mainPanel;
     private JFrame frame;
     private final Maze maze;
-    ObjectMove move;
+
+    List<GhostMoving> objectMoves;
     String [] args;
     String fileName;
-    Thread executeThread = new Thread(() -> {
-        move.execute();
-    });
     int count = 0;
+
 
     public MazePresenter(Maze maze, String [] args, String fileName) {
         this.maze = maze;
@@ -43,6 +46,8 @@ public class MazePresenter {
         this.PlayerAdapterMouse = new PlayerAdapterMouse(((Game) maze).pacman(), (Game) maze);
         this.args = args;
         this.fileName = fileName;
+        this.objectMoves= new ArrayList<>();
+
     }
 
     public void open() {
@@ -115,23 +120,21 @@ public class MazePresenter {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        move = new ObjectMove((PathField) maze.ghosts().get(0).getField(), (PathField) ((Game) maze).pacman().getField(), (GhostObject) maze.ghosts().get(0), (Game) maze);
-        executeThread.start();
         frame.requestFocusInWindow();
+
+        for (int i = 0; i< maze.ghosts().size();i++) {
+            MazeObject ghost = maze.ghosts().get(i);
+            GhostMoving move;
+            move = (new GhostMoving(((Game) maze).getRandomPathField(), (GhostObject) ghost, (Game) maze));
+            objectMoves.add(move);
+            new Thread(move::start).start();
+        }
+
     }
 
     public void update() {
         count++;
-        if (!move.isIsmoving()){
-            if (count%2 == 0) {
-                move.setIsmoving(true);
-                move = new ObjectMove((PathField) maze.ghosts().get(0).getField(), (PathField) ((Game) maze).pacman().getField(), (GhostObject) maze.ghosts().get(0), (Game) maze);
-                executeThread = new Thread(() -> {
-                    move.execute();
-                });
-                executeThread.start();
-            }
-        }
+
         int lives = ((Game) maze).pacman().getLives();
         int keys = ((Game) maze).pacman().getKeys();
         boolean win = ((Game) maze).pacman().getTarget();
@@ -144,6 +147,9 @@ public class MazePresenter {
             LWin.setText("GAME OVER!");
             frame.removeKeyListener(PlayerAdapterAZDW);
             Component[] components = mainPanel.getComponents();
+            for (GhostMoving ghost: objectMoves) {
+                ghost.overgame();
+            }
             for (Component component : components) {
                 if (component instanceof FieldView) {
                     component.removeMouseListener(PlayerAdapterMouse);
@@ -154,6 +160,9 @@ public class MazePresenter {
             Llives.setText("");
             LKeys.setText("");
             LWin.setText("YOU WIN!");
+            for (GhostMoving ghost: objectMoves) {
+                ghost.overgame();
+            }
             frame.removeKeyListener(PlayerAdapterAZDW);
             Component[] components = mainPanel.getComponents();
             for (Component component : components) {

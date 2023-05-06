@@ -40,9 +40,11 @@ public class GhostObject extends BasicObject {
 
     @Override
     public boolean moveBack(Field.Direction direction) {
+        System.out.println(direction);
         PathField tmp = (PathField) this.mainF.nextField(direction);
         tmp.putBack(this);
         this.mainF.removeBack(this);
+        setField(tmp);
         return true;
     }
 

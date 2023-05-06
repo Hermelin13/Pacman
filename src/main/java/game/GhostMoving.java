@@ -23,12 +23,10 @@ public class GhostMoving {
     public void start(){
         executeThread = new Thread(() -> {
             while (!gameover) {
-                ObjectMove move = new ObjectMove(from, to, ghost, maze);
-                move.execute();
-                move = new ObjectMove(to, from, ghost, maze);
+                from=(PathField) ghost.getField();
+                ObjectMove move = new ObjectMove(from, maze.getRandomPathField(), ghost, maze);
                 move.execute();
             }
-
         });
         executeThread.start();
     }

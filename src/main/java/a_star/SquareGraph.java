@@ -141,14 +141,12 @@ public class SquareGraph {
             current = current.getParent();
         }
         Collections.reverse(path);
-        System.out.println(path);
         return path;
     }
 
     public void printPath(ArrayList<Node> path) {
         for (int i = 0; i < path.size(); i++) {
             Node node = path.get(i);
-            System.out.println("node : (" + node.getX() + "," + node.getY() + ")");
         }
     }
 

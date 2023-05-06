@@ -51,8 +51,18 @@ public class PlayerAdapterMouse extends MouseAdapter {
             int pacmanCol = ((PathField) pacman.getField()).getMainCol();
 
 
-            SquareGraph graph = maze.getGraph();
-
+            SquareGraph graph;
+            graph = new SquareGraph(maze.numRows(), maze.numCols());
+            Point point;
+            for (int rows=0;rows< maze.numRows();rows++) {
+                for (int cols=0;cols<maze.numCols();cols++)
+                {
+                    point = new Point(rows,cols);
+                    maze.getGraph().getMapCell(point);
+                    Node n = new Node(rows, cols,maze.getGraph().getMapCell(point).isObstacle()? "OBSTACLE" : "NORMAL");
+                    graph.setMapCell(point,n);
+                }
+            }
             Point target = new Point(fieldRow, fieldCol);
             graph.setTargetPosition(target);
             Point start = new Point(pacmanRow, pacmanCol);
@@ -62,19 +72,11 @@ public class PlayerAdapterMouse extends MouseAdapter {
             while (fieldCol != pacmanCol || fieldRow != pacmanRow) {
                 try {
                     for (int i = 0; i < nodes.size(); i++) {
-                        System.out.println(nodes.get(i));
 
                         int row = nodes.get(i).getX();
                         int col = nodes.get(i).getY();
                         int moveRow = row - pacmanRow;
                         int moveCol = col - pacmanCol;
-
-                        System.out.println(nodes);
-                        System.out.println(row);
-                        System.out.println(pacmanRow);
-                        System.out.println(col);
-                        System.out.println(pacmanCol);
-                        graph.printPath(nodes);
 
 
                         if (moveRow > 0) {

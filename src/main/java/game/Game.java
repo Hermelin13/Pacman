@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
@@ -27,22 +28,23 @@ public class Game implements Maze {
     private int mainRows;
     private int mainCols;
     private Field[][] mainArrayF;
+    private List<PathField> pathFields;
 
     private FileHandler fh;
 
     SquareGraph graph;
     Logger logger = Logger.getLogger("MyLog");
 
+    public List<MazeObject> ghosts;
+
     public Game(Field[][] arrayF, int rows, int cols) {
         this.mainArrayF = arrayF;
         this.mainRows = rows;
         this.mainCols = cols;
         this.graph = new SquareGraph(rows + 2, cols + 2);
-        this.Ghosts = new ArrayList<>();
+        this.ghosts = new ArrayList<>();
         this.numKeys = 0;
     }
-
-    public List<MazeObject> Ghosts;
 
     public PacmanObject pacman;
     public TargetObject Target;
@@ -52,9 +54,10 @@ public class Game implements Maze {
         this.mainRows = rows;
         this.mainCols = cols;
         this.mainArrayF = new Field[rows + 2][cols + 2];
-        this.Ghosts = new ArrayList<>();
+        this.ghosts = new ArrayList<>();
         this.graph = new SquareGraph(rows + 2, cols + 2);
         this.numKeys = 0;
+        this.pathFields = new ArrayList<>();
     }
 
     public Maze createGame(String[] maze, int rows, int cols) throws IOException {
@@ -88,11 +91,11 @@ public class Game implements Maze {
                         graph.setMapCell(new Point(x, y), n);
                     } else {
                         arrayF[x][y] = new PathField(x, y);
+                        pathFields.add((PathField) arrayF[x][y]);
                         Node n = new Node(x, y, "NORMAL");
                         graph.setMapCell(new Point(x, y), n);
                         if (maze[x - 1].charAt(y - 1) == 'S') {
                             PacmanObject P = new PacmanObject(arrayF[x][y], logger);
-                            System.out.println("in here");
                             logger.info("created " + P.hashCode() + " true " + x + " " + y);
                             pacman = P;
                             arrayF[x][y].put(P);
@@ -100,7 +103,7 @@ public class Game implements Maze {
                             GhostObject G = new GhostObject(arrayF[x][y], logger);
                             logger.info("created " + G.hashCode() + " false " + x + " " + y);
                             arrayF[x][y].put(G);
-                            this.Ghosts.add(G);
+                            this.ghosts.add(G);
                         } else if (maze[x - 1].charAt(y - 1) == 'K') {
                             KeyObject K = new KeyObject(arrayF[x][y]);
                             arrayF[x][y].put(K);
@@ -141,6 +144,11 @@ public class Game implements Maze {
     }
 
 
+    public PathField getRandomPathField() {
+        Random rand = new Random();
+        int rand_int1 = rand.nextInt(pathFields.size()-1);
+        return pathFields.get(rand_int1);
+    }
     public FileHandler getFh(){
         return fh;
     }
@@ -156,7 +164,7 @@ public class Game implements Maze {
 
     @Override
     public List<MazeObject> ghosts() {
-        return new ArrayList<>(this.Ghosts);
+        return new ArrayList<>(this.ghosts);
     }
 
     @Override
