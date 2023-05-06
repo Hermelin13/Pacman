@@ -13,11 +13,16 @@ You can move using your keyboard with keys:
 * Z - down
 
 ## Launch
+Compile app
+```
+mvn clean install
+```
 
-````
 
- java -cp target/pacman-1.0.0.jar Pacman
-````
+Launch app
+```
+java -cp target/pacman-1.0.0.jar Pacman
+```
 
 ## Replay
 

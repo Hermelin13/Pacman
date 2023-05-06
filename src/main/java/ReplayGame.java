@@ -22,14 +22,10 @@ public class ReplayGame {
     }
 
     public void execute () {
-        if (args.length < 1) {
-            System.err.println("Usage: MazeConfigure <filename>");
-            System.exit(1);
-        }
         Game game = null;
 
         MazeConfigure mc = new MazeConfigure();
-        String filename = args[0];
+        String filename = "map";
         try (
                 BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line = br.readLine();
