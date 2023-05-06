@@ -31,16 +31,18 @@ public class MazePresenter {
     private final Maze maze;
     ObjectMove move;
     String [] args;
+    String fileName;
     Thread executeThread = new Thread(() -> {
         move.execute();
     });
     int count = 0;
 
-    public MazePresenter(Maze maze, String [] args) {
+    public MazePresenter(Maze maze, String [] args, String fileName) {
         this.maze = maze;
         this.PlayerAdapterAZDW = new PlayerAdapterAZDW(((Game) maze).pacman());
         this.PlayerAdapterMouse = new PlayerAdapterMouse(((Game) maze).pacman(), (Game) maze);
         this.args = args;
+        this.fileName = fileName;
     }
 
     public void open() {
@@ -96,7 +98,7 @@ public class MazePresenter {
             if (input != null) {
 
                 new Thread(() -> {
-                    ReplayGame Rgame = new ReplayGame(args, input);
+                    ReplayGame Rgame = new ReplayGame(args, input, fileName);
                     Rgame.execute();
                 }).start();
                 frame.requestFocusInWindow();

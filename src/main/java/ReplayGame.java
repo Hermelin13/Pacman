@@ -15,19 +15,20 @@ public class ReplayGame {
 
     String name;
     private String [] args;
+    String fileName;
 
-    public ReplayGame (String [] mainargs, String name){
+    public ReplayGame (String [] mainargs, String name, String fileName){
         this.args = mainargs;
         this.name = name;
+        this.fileName = fileName;
     }
 
     public void execute () {
         Game game = null;
 
         MazeConfigure mc = new MazeConfigure();
-        String filename = "data/map";
         try (
-                BufferedReader br = new BufferedReader(new FileReader(filename))) {
+                BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line = br.readLine();
             int rows = Integer.parseInt(line.split(" ")[0]);
             int cols = Integer.parseInt(line.split(" ")[1]);
@@ -53,7 +54,7 @@ public class ReplayGame {
             // Do something with the created maze
         } catch (
                 IOException e) {
-            System.err.println("Error reading file: " + filename);
+            System.err.println("Error reading file: " + fileName);
             System.exit(1);
         }
 

@@ -13,10 +13,12 @@ import java.io.IOException;
 
 public class NewGame {
 
-    private String [] args;
+    private final String [] args;
+    private final String fileName;
 
-    public NewGame (String [] mainargs){
+    public NewGame (String [] mainargs, String fileName){
         this.args = mainargs;
+        this.fileName = fileName;
     }
 
     public void execute () {
@@ -27,9 +29,8 @@ public class NewGame {
         Game game = null;
 
         MazeConfigure mc = new MazeConfigure();
-        String filename = "data/map";
         try (
-                BufferedReader br = new BufferedReader(new FileReader(filename))) {
+                BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line = br.readLine();
             int rows = Integer.parseInt(line.split(" ")[0]);
             int cols = Integer.parseInt(line.split(" ")[1]);
@@ -55,12 +56,12 @@ public class NewGame {
             // Do something with the created maze
         } catch (
                 IOException e) {
-            System.err.println("Error reading file: " + filename);
+            System.err.println("Error reading file: " + fileName);
             System.exit(1);
         }
 
 
-        MazePresenter mazePresenter = new MazePresenter(game, args);
+        MazePresenter mazePresenter = new MazePresenter(game, args, fileName);
         mazePresenter.open();
     }
 }
