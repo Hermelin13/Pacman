@@ -27,7 +27,7 @@ public class NewGame {
         Game game = null;
 
         MazeConfigure mc = new MazeConfigure();
-        String filename = "map";
+        String filename = "data/map";
         try (
                 BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line = br.readLine();
