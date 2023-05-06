@@ -14,9 +14,9 @@ You can move using your keyboard with keys:
 
 ## Launch
 
-Load the map like this:
 ````
-Pacman map
+
+ java -cp target/pacman-1.0.0.jar Pacman
 ````
 
 ## Replay

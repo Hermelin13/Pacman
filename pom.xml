@@ -10,21 +10,15 @@
     <version>1.0.0</version>
 
     <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <javafx.version>17.0.0</javafx.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-fxml</artifactId>
-            <version>${javafx.version}</version>
+            <version>20</version>
         </dependency>
     </dependencies>
 
@@ -36,10 +30,7 @@
                 <version>0.0.8</version>
                 <configuration>
                     <mainClass>com.example.Pacman</mainClass>
-                    <options>
-                        <option>--map</option>
-                        <option>${map.file}</option>
-                    </options>
+
                 </configuration>
             </plugin>
         </plugins>
