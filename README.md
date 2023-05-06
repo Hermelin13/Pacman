@@ -12,6 +12,10 @@ You can move using your keyboard with keys:
 * D - right
 * Z - down
 
+## Requirements
+* Java 17
+* Maven
+
 ## Launch
 Compile app
 ```

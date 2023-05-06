@@ -92,7 +92,7 @@ public class MazePresenter {
 
         JButton replayButton = new JButton("Replay");
         replayButton.addActionListener(e -> {
-            String input = JOptionPane.showInputDialog(frame, "Enter replay file name:");
+            String input = JOptionPane.showInputDialog(frame, "Enter path to replay file:");
             if (input != null) {
 
                 new Thread(() -> {

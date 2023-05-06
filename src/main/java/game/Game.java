@@ -64,7 +64,7 @@ public class Game implements Maze {
 
 
         this.graph = new SquareGraph(rows, cols);
-        fh = new FileHandler("MyLogFile.log");
+        fh = new FileHandler("data/MyLogFile.log");
         fh.setFormatter(new MyFrmatter());
         try {
             // This block configure the logger with handler and formatter
