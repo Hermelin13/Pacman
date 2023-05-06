@@ -15,6 +15,7 @@ import common.MazeObject;
 
 import java.awt.*;
 import java.io.IOException;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.FileHandler;
@@ -43,9 +44,8 @@ public class Game implements Maze {
 
     public List<MazeObject> Ghosts;
 
-    private int fuck_keys;
-
     public PacmanObject pacman;
+    public TargetObject Target;
 
 
     public Game(int rows, int cols) {
@@ -108,6 +108,7 @@ public class Game implements Maze {
                         } else if (maze[x - 1].charAt(y - 1) == 'T') {
                             TargetObject T = new TargetObject(arrayF[x][y]);
                             arrayF[x][y].put(T);
+                            Target = T;
                         }
                     }
                 }
@@ -129,6 +130,10 @@ public class Game implements Maze {
 
     public PacmanObject pacman() {
         return this.pacman;
+    }
+
+    public TargetObject target() {
+        return this.Target;
     }
 
     public SquareGraph getGraph() {

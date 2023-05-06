@@ -21,6 +21,7 @@ public class ObjectMove {
     private SquareGraph graph;
     private int ghostRow;
     private int ghostCol;
+    private boolean ismoving = false;
 
     public ObjectMove(PathField start,PathField target,GhostObject ghost,Game maze)
     {
@@ -36,6 +37,7 @@ public class ObjectMove {
     }
 
     public void execute(){
+        ismoving = true;
         int moveRow=-1;
         int moveCol=-1;
             try {
@@ -75,15 +77,25 @@ public class ObjectMove {
 
                     ghostRow = ((PathField) this.ghost.getField()).getMainRow();
                     ghostCol = ((PathField) this.ghost.getField()).getMainCol();
-                    Thread.sleep(400);
+                    Thread.sleep(350);
                 }
                 graph.clean();
+                ismoving = false;
             }
             catch (Exception er) {
                 System.err.println(er);
                 graph.clean();
+                ismoving = false;
             }
 
-            }
-        }
+    }
+
+    public boolean isIsmoving (){
+        return this.ismoving;
+    }
+
+    public void setIsmoving (boolean moving){
+        this.ismoving = moving;
+    }
+}
 

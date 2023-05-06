@@ -21,7 +21,6 @@ public class GhostMoving {
     }
 
     public void start(){
-        System.out.println("kokot");
         executeThread = new Thread(() -> {
             while (!gameover) {
                 ObjectMove move = new ObjectMove(from, to, ghost, maze);

@@ -5,12 +5,9 @@
 
 import adapters.PlayerAdapterAZDW;
 import adapters.PlayerAdapterMouse;
-import game.Game;
+import game.*;
 
 import common.Maze;
-import game.GhostMoving;
-import game.GhostObject;
-import game.PathField;
 import view.FieldView;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -32,8 +29,12 @@ public class MazePresenter {
     private JPanel mainPanel;
     private JFrame frame;
     private final Maze maze;
-    GhostMoving move;
+    ObjectMove move;
     String [] args;
+    Thread executeThread = new Thread(() -> {
+        move.execute();
+    });
+    int count = 0;
 
     public MazePresenter(Maze maze, String [] args) {
         this.maze = maze;
@@ -112,15 +113,27 @@ public class MazePresenter {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        move = new GhostMoving((PathField) ((Game) maze).pacman().getField(),(GhostObject) maze.ghosts().get(0),(Game) maze);
-        move.start();
+        move = new ObjectMove((PathField) maze.ghosts().get(0).getField(), (PathField) ((Game) maze).pacman().getField(), (GhostObject) maze.ghosts().get(0), (Game) maze);
+        executeThread.start();
         frame.requestFocusInWindow();
     }
 
     public void update() {
+        count++;
+        if (!move.isIsmoving()){
+            if (count%2 == 0) {
+                move.setIsmoving(true);
+                move = new ObjectMove((PathField) maze.ghosts().get(0).getField(), (PathField) ((Game) maze).pacman().getField(), (GhostObject) maze.ghosts().get(0), (Game) maze);
+                executeThread = new Thread(() -> {
+                    move.execute();
+                });
+                executeThread.start();
+            }
+        }
         int lives = ((Game) maze).pacman().getLives();
         int keys = ((Game) maze).pacman().getKeys();
         boolean win = ((Game) maze).pacman().getTarget();
+
         Llives.setText("Lives: " + lives);
         LKeys.setText("Keys: " + keys);
         if (lives <= 0) {
@@ -134,7 +147,6 @@ public class MazePresenter {
                     component.removeMouseListener(PlayerAdapterMouse);
                 }
             }
-            move.overgame();
         }
         if (win) {
             Llives.setText("");
@@ -147,7 +159,6 @@ public class MazePresenter {
                     component.removeMouseListener(PlayerAdapterMouse);
                 }
             }
-            move.overgame();
 
         }
     }
