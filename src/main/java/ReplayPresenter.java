@@ -46,7 +46,7 @@ public class ReplayPresenter {
 
     }
 
-    private void initializeInterface() {
+    public void initializeInterface() {
         frame = new JFrame("Replay");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(600, 700);

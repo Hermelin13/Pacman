@@ -54,7 +54,7 @@ public class MazePresenter {
 
     }
 
-    private void initializeInterface() {
+    public void initializeInterface() {
         frame = new JFrame("Lidl Pacman");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(600, 700);

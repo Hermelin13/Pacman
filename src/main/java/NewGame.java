@@ -62,7 +62,8 @@ public class NewGame {
 
 
         MazePresenter mazePresenter = new MazePresenter(game, args, fileName);
-        mazePresenter.open();
+        /*mazePresenter.open();*/
+        mazePresenter.initializeInterface();
     }
 }
 

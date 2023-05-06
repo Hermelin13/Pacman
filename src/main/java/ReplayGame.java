@@ -61,6 +61,7 @@ public class ReplayGame {
 
 
         ReplayPresenter replayPresenter = new ReplayPresenter(game, name);
-        replayPresenter.open();
+        /*replayPresenter.open();*/
+        replayPresenter.initializeInterface();
     }
 }

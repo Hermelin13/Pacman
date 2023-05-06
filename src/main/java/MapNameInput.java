@@ -26,15 +26,9 @@ public class MapNameInput extends JFrame {
         JButton button = new JButton("Play");
         button.addActionListener(e -> {
             fileName = textField.getText();
-            SwingWorker<Void, Void> worker = new SwingWorker<>() {
-                @Override
-                protected Void doInBackground() {
                     NewGame game = new NewGame(args, fileName);
                     game.execute();
-                    return null;
-                }
-            };
-            worker.execute();
+
         });
         add(button, BorderLayout.EAST);
 
