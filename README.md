@@ -22,10 +22,9 @@ Compile app
 mvn clean install
 ```
 
-
 Launch app
 ```
-java -cp target/pacman-1.0.0.jar Pacman
+java -cp target/xjurci08-1.0.0.jar Pacman
 ```
 
 ## Replay
